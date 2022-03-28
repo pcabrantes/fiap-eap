@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_disciplina")
-@SequenceGenerator(name = "aluno", sequenceName = "SQ_TB_DISCIPLINA", allocationSize = 1)
+@SequenceGenerator(name = "disciplina", sequenceName = "SQ_TB_DISCIPLINA", allocationSize = 1)
 public class Disciplina implements Serializable{
 
 	
@@ -32,7 +32,7 @@ public class Disciplina implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aluno")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "disciplina")
 	private Long id;
 	
 	@Column(name = "ds_nome", length = 20, nullable = false)
