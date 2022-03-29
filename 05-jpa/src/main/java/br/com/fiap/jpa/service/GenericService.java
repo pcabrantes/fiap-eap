@@ -11,7 +11,7 @@ public abstract class GenericService<T extends Serializable, PK extends Serializ
 	
 	private EntityManager entityManager = null;
 	
-	public abstract void criarNovo(T instance);
+	public abstract void inserir(T instance);
 	public abstract void atualizar(T instance);
 	public abstract void remover(Long id);
 	public abstract T obter(Long id);
