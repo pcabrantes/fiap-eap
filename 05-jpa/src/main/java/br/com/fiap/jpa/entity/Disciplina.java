@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_disciplina")
-@SequenceGenerator(name = "aluno", sequenceName = "SQ_TB_DISCIPLINA", allocationSize = 1)
+@SequenceGenerator(name = "disciplina", sequenceName = "SQ_TB_DISCIPLINA", allocationSize = 1)
 public class Disciplina implements Serializable{
 
 	
@@ -32,10 +32,10 @@ public class Disciplina implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aluno")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "disciplina")
 	private Long id;
 	
-	@Column(name = "ds_nome", length = 20, nullable = false)
+	@Column(name = "ds_nome", length = 40, nullable = false)
 	private String nome;
 	
 	@Column(name = "nr_carga_horaria")
@@ -49,5 +49,60 @@ public class Disciplina implements Serializable{
 	
 	@Column(name = "dt_atualizacao")
 	private LocalDateTime dataAtualizacao;
+	
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Integer getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(Integer cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public LocalDateTime getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
+
+	@Override
+	public String toString() {
+		return "\nDisciplina: " + this.getNome()
+				+ "\nCarga Horária: " + this.getCargaHoraria() + " Horas ";
+		
+		
+	}
 }
