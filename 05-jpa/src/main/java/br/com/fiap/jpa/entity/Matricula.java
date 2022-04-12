@@ -1,7 +1,9 @@
 package br.com.fiap.jpa.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,39 +13,35 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_disciplina")
-@SequenceGenerator(name = "disciplina", sequenceName = "SQ_TB_DISCIPLINA", allocationSize = 1)
-public class Disciplina implements Serializable{
+@Table(name = "tb_matricula")
+public class Matricula implements Serializable{
 
+	private static final long serialVersionUID = 4073510199087371083L;
 	
-	private static final long serialVersionUID = 613485805604306620L;
-	
-	public Disciplina() {
+	public Matricula() {
 		this.ativo = true;
-		this.dataCadastro = LocalDateTime.now();
 		this.dataAtualizacao = LocalDateTime.now();
+		this.dataCadastro = LocalDateTime.now();
 	}
 	
-	public Disciplina(String nome, Integer cargaHoraria, Curso curso) {
+	public Matricula(Aluno aluno, Curso curso, LocalDate dataMatricula) {
 		this();
-		this.nome = nome;
-		this.cargaHoraria = cargaHoraria;
+		this.aluno = aluno;
 		this.curso = curso;
+		this.dataMatricula = dataMatricula;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "disciplina")
 	private Long id;
 	
-	@Column(name = "ds_nome", length = 40, nullable = false)
-	private String nome;
-	
-	@Column(name = "nr_carga_horaria")
-	private Integer cargaHoraria;
+	@Column(name = "dt_matricula", nullable = false)
+	private LocalDate dataMatricula;
 	
 	@Column(name = "st_ativo")
 	private Boolean ativo;
@@ -54,10 +52,19 @@ public class Disciplina implements Serializable{
 	@Column(name = "dt_atualizacao")
 	private LocalDateTime dataAtualizacao;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Endereco endereco;
+	
+	@ManyToOne
+	@JoinColumn(name = "aluno_id")
+	private Aluno aluno;
+	
+	@ManyToOne
 	@JoinColumn(name = "curso_id")
 	private Curso curso;
-	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -66,20 +73,28 @@ public class Disciplina implements Serializable{
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Aluno getAluno() {
+		return aluno;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}
 
-	public Integer getCargaHoraria() {
-		return cargaHoraria;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setCargaHoraria(Integer cargaHoraria) {
-		this.cargaHoraria = cargaHoraria;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public LocalDate getDataMatricula() {
+		return dataMatricula;
+	}
+
+	public void setDataMatricula(LocalDate dataMatricula) {
+		this.dataMatricula = dataMatricula;
 	}
 
 	public Boolean getAtivo() {
@@ -106,19 +121,19 @@ public class Disciplina implements Serializable{
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public Curso getCurso() {
-		return curso;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "\nDisciplina: " + this.getNome()
-				+ "\nCarga Horária: " + this.getCargaHoraria() + " Horas ";
-		
-		
+		return "\nAluno: " + this.getAluno().getNome()
+				+ "\nCurso: " + this.getCurso().getNome()
+				+ "\nData Matricula: " + this.getDataMatricula().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
+
 }

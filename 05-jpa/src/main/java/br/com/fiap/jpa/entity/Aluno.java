@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
@@ -68,6 +70,37 @@ public class Aluno implements Serializable {
 	@OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private Endereco endereco;
+	
+	/*
+	@ManyToMany
+	@JoinTable(
+		name = "tb_aluno_curso",
+		joinColumns = @JoinColumn(name = "aluno_id"),
+		inverseJoinColumns = @JoinColumn(name = "curso_id")
+	)
+	private List<Curso> cursos;
+	
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+	*/
+
+	
+	@OneToMany(mappedBy = "aluno")
+	private List<Matricula> matriculas;
+	
+
+	public List<Matricula> getMatriculas() {
+		return matriculas;
+	}
+
+	public void setMatriculas(List<Matricula> matriculas) {
+		this.matriculas = matriculas;
+	}
 	
 	public Long getId() {
 		return id;

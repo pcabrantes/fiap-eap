@@ -3,8 +3,14 @@ package br.com.fiap.jpa;
 import java.time.LocalDate;
 
 import br.com.fiap.jpa.entity.Aluno;
+import br.com.fiap.jpa.entity.Curso;
+import br.com.fiap.jpa.entity.Disciplina;
 import br.com.fiap.jpa.entity.Endereco;
+import br.com.fiap.jpa.entity.Matricula;
 import br.com.fiap.jpa.service.impl.AlunoServiceImpl;
+import br.com.fiap.jpa.service.impl.CursoServiceImpl;
+import br.com.fiap.jpa.service.impl.DisciplinaServiceImpl;
+import br.com.fiap.jpa.service.impl.MatriculaServiceImpl;
 
 public class App {
 
@@ -12,6 +18,10 @@ public class App {
 		
 		//Instanciando service para executar operações na entidade Aluno
 		AlunoServiceImpl alunoService = AlunoServiceImpl.getInstance();
+		
+		CursoServiceImpl cursoService = CursoServiceImpl.getInstance();
+		DisciplinaServiceImpl disciplinaService = DisciplinaServiceImpl.getInstance();
+		MatriculaServiceImpl matriculaService = MatriculaServiceImpl.getInstance();
 		
 		//Criando 3 instâncias de Aluno
 		Aluno aluno1 = new Aluno("Aluno 1", "1111", "111.111.111-11", LocalDate.of(1980, 1, 1));
@@ -31,5 +41,28 @@ public class App {
 		
 		//Excluindo o aluno com id 3 e, em cascata, removendo também o endereço associado a ele
 		alunoService.remover(3L);
+		
+		alunoService.listar().forEach(System.out::println);
+		
+		//Inserindo um novo curso
+		Curso curso = new Curso("Tecnologo em Análise e Desenvolvimento de Sistemas");
+		cursoService.inserir(curso);
+		
+		cursoService.listar().forEach(System.out::println);
+		
+		//Inserindo uma nova disciplina associada ao curso criado acima
+		Disciplina disciplina = new Disciplina("EAD", 60, curso);
+		disciplina.setCurso(curso);
+		
+		disciplinaService.inserir(disciplina);
+		
+		//Efetuando a matrícula de dos alunos 1 e 2 no curso criado acima
+		Matricula matricula1 = new Matricula(aluno1, curso, LocalDate.now());
+		Matricula matricula2 = new Matricula(aluno2, curso, LocalDate.now());
+		
+		matriculaService.inserir(matricula1);
+		matriculaService.inserir(matricula2);
+		
+		matriculaService.listar().forEach(System.out::println);
 	}
 }
