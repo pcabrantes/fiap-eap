@@ -16,9 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Table(name = "tb_matricula")
+@SequenceGenerator(name = "matricula", sequenceName = "SQ_TB_MATRICULA", allocationSize = 1)
 public class Matricula implements Serializable{
 
 	private static final long serialVersionUID = 4073510199087371083L;
@@ -37,7 +39,7 @@ public class Matricula implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "disciplina")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matricula")
 	private Long id;
 	
 	@Column(name = "dt_matricula", nullable = false)
