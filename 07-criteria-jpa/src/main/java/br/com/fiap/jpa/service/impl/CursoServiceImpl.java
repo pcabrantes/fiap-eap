@@ -104,5 +104,19 @@ public class CursoServiceImpl extends GenericService<Curso, Long> {
 		
 		return cursos;
 	}
+	
+	public List<Curso> buscarPorNomeIgnoreCase(String nome) {
+		List<Curso> cursos = null;
+		
+		try {
+			cursos = cursoDAO.buscarPorNomeIgnoreCase(nome, getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return cursos;
+	}
 
 }

@@ -2,3 +2,5 @@
 *.class
 
 05-jpa/target/
+
+07-criteria-jpa/target/

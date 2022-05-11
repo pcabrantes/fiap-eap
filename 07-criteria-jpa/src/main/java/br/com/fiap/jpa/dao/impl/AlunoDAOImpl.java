@@ -6,9 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import br.com.fiap.jpa.dto.AlunoCidadeDTO;
 import br.com.fiap.jpa.entity.Aluno;
+import br.com.fiap.jpa.entity.Endereco;
 
 public class AlunoDAOImpl extends HibernateGenericDAO<Aluno, Long> {
 
@@ -70,6 +74,39 @@ public class AlunoDAOImpl extends HibernateGenericDAO<Aluno, Long> {
 		criteriaQuery.select(aluno);
 		
 		TypedQuery<Aluno> consulta = entityManager.createQuery(criteriaQuery);
+		
+		return consulta.getResultList();
+	}
+	
+	public List<Aluno> listarFetchEndereco(String rua, EntityManager entityManager) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Aluno> criteriaQuery = builder.createQuery(Aluno.class);
+		
+		Root<Aluno> aluno = criteriaQuery.from(Aluno.class);
+		Join<Aluno, Endereco> endereco = (Join) aluno.fetch("endereco");
+		
+		Predicate predicate = builder.like(
+				builder.upper(endereco.get("rua")), "%" + rua.toUpperCase() + "%");
+		
+		criteriaQuery.select(aluno);
+		criteriaQuery.where(predicate);
+		
+		TypedQuery<Aluno> consulta = entityManager.createQuery(criteriaQuery);
+		
+		return consulta.getResultList();
+	}
+	
+	public List<AlunoCidadeDTO> listarAlunosCidades(EntityManager entityManager) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<AlunoCidadeDTO> criteriaQuery = builder.createQuery(AlunoCidadeDTO.class);
+		
+		Root<Aluno> aluno = criteriaQuery.from(Aluno.class);
+		Join<Aluno, Endereco> endereco = aluno.join("endereco");
+		
+		criteriaQuery.select(builder.construct(AlunoCidadeDTO.class, 
+				aluno.get("nome"), endereco.get("cidade")));
+		
+		TypedQuery<AlunoCidadeDTO> consulta = entityManager.createQuery(criteriaQuery);
 		
 		return consulta.getResultList();
 	}

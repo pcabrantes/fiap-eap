@@ -122,5 +122,32 @@ private static MatriculaServiceImpl instance = null;
 		
 		return cursos;
 	}
+	
+	public List<Matricula> listarPorCurso(Long idCurso) {
+		List<Matricula> matriculas = null;
+		
+		try {
+			matriculas = matriculaDAO.listarPorCurso(idCurso, getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return matriculas;
+	}
 
+	public List<AlunoCursoDTO> listarAlunosCursoComCriteria() {
+		List<AlunoCursoDTO> alunos = null;
+		
+		try {
+			alunos = matriculaDAO.listarAlunosCursoComCriteria(getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return alunos;
+	}
 }

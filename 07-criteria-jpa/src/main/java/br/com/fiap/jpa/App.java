@@ -80,5 +80,37 @@ public class App {
 		System.out.println("========= Contar disciplinas =========");
 		
 		System.out.println(disciplinaService.contarDisciplinas());
+		
+		System.out.println("========= Listar disciplinas concatenado ===========");
+		
+		disciplinaService.listarConcatenado().forEach(System.out::println);
+		
+		System.out.println("========= Buscar disciplinas por nome ignore case ==========");
+		
+		disciplinaService.buscarPorNomeIgnoreCase("app").forEach(System.out::println);
+		
+		System.out.println("========= Buscar cursos por nome ignore case ============");
+		
+		cursoService.buscarPorNomeIgnoreCase("desenvolvimento").forEach(System.out::println);
+		
+		System.out.println("========= Listar disciplinas por curso com criteria ===========");
+		
+		disciplinaService.listarPorCursoComCriteria(1L).forEach(System.out::println);
+		
+		System.out.println("========= Listar matriculas por curso ============");
+		
+		matriculaService.listarPorCurso(1L).forEach(System.out::println);
+		
+		System.out.println("========= Listar alunos fetch endereco ============");
+		
+		alunoService.listarFetchEndereco("teste").forEach(System.out::println);
+		
+		System.out.println("========= Listar alunos cursos com criteria ========");
+		
+		matriculaService.listarAlunosCursoComCriteria().forEach(System.out::println);
+		
+		System.out.println("======== Listar alunos cidades ==========");
+		
+		alunoService.listarAlunosCidades().forEach(System.out::println);
 	}
 }

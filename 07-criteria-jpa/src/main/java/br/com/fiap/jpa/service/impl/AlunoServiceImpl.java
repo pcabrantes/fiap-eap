@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.fiap.jpa.dao.impl.AlunoDAOImpl;
 import br.com.fiap.jpa.dao.impl.CursoDAOImpl;
 import br.com.fiap.jpa.dao.impl.EnderecoDAOImpl;
+import br.com.fiap.jpa.dto.AlunoCidadeDTO;
 import br.com.fiap.jpa.entity.Aluno;
 import br.com.fiap.jpa.entity.Endereco;
 import br.com.fiap.jpa.service.GenericService;
@@ -200,6 +201,34 @@ public class AlunoServiceImpl extends GenericService<Aluno, Long> {
 			int qtdMax = 10;
 			int primeiro = (pagina - 1) + qtdMax;
 			alunos = alunoDAO.listarPaginado(primeiro, qtdMax, getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return alunos;
+	}
+	
+	public List<Aluno> listarFetchEndereco(String rua) {
+		List<Aluno> alunos = null;
+		
+		try {
+			alunos = alunoDAO.listarFetchEndereco(rua, getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return alunos;
+	}
+	
+	public List<AlunoCidadeDTO> listarAlunosCidades() {
+		List<AlunoCidadeDTO> alunos = null;
+		
+		try {
+			alunos = alunoDAO.listarAlunosCidades(getEntityManager());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

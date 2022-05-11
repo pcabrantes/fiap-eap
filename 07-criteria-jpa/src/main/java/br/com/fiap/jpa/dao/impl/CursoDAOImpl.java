@@ -8,10 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.fiap.jpa.entity.Curso;
+import br.com.fiap.jpa.entity.Disciplina;
 
 public class CursoDAOImpl extends HibernateGenericDAO<Curso, Long> {
 
@@ -53,6 +55,26 @@ public class CursoDAOImpl extends HibernateGenericDAO<Curso, Long> {
 		
 		criteriaQuery.select(curso);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		
+		TypedQuery<Curso> consulta = entityManager.createQuery(criteriaQuery);
+		
+		return consulta.getResultList();
+	}
+	
+	public List<Curso> buscarPorNomeIgnoreCase(String nome, EntityManager entityManager) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Curso> criteriaQuery = builder.createQuery(Curso.class);
+		
+		Root<Curso> curso = criteriaQuery.from(Curso.class);
+		
+		Predicate predicate = builder.like(
+				builder.upper(curso.get("nome")), "%" + nome.toUpperCase() + "%");
+		
+		Order order = builder.asc(curso.get("nome"));
+		
+		criteriaQuery.select(curso);
+		criteriaQuery.where(predicate);
+		criteriaQuery.orderBy(order);
 		
 		TypedQuery<Curso> consulta = entityManager.createQuery(criteriaQuery);
 		

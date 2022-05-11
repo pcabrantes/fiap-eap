@@ -158,5 +158,47 @@ public class DisciplinaServiceImpl extends GenericService<Disciplina, Long> {
 		
 		return qtd;
 	}
+	
+	public List<String> listarConcatenado() {
+		List<String> disciplinas = null;
+		
+		try {
+			disciplinas = disciplinaDAO.listarConcatenado(getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return disciplinas;
+	}
+	
+	public List<Disciplina> buscarPorNomeIgnoreCase(String nome) {
+		List<Disciplina> disciplinas = null;
+		
+		try {
+			disciplinas = disciplinaDAO.buscarPorNomeIgnoreCase(nome, getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return disciplinas;
+	}
+	
+	public List<Disciplina> listarPorCursoComCriteria(Long idCurso) {
+		List<Disciplina> disciplinas = null;
+		
+		try {
+			disciplinas = disciplinaDAO.listarPorCursoComCriteria(idCurso, getEntityManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeEntityManager();
+		}
+		
+		return disciplinas;
+	}
 
 }
